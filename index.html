@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>freepdftoimage.app — PDF to Image Converter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<script src="fflate.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #faf9f6;
+    --surface: #f4f2ee;
+    --border: #e8e4dd;
+    --text: #1a1917;
+    --text-secondary: #6e6b63;
+    --accent: #C49A2A;
+    --font-ui: 'DM Sans', system-ui, sans-serif;
+    --font-body: 'Lora', Georgia, serif;
+  }
+
+  [data-theme="dark"] {
+    --bg: #141412;
+    --surface: #1e1c1a;
+    --border: #2e2b27;
+    --text: #f0ede8;
+    --text-secondary: #9a9690;
+    --accent: #D4A835;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* Header */
+  .header {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    font-family: var(--font-ui);
+  }
+
+  .header-brand {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+  }
+
+  /* Main content */
+  .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 52px - 32px);
+    padding: 24px;
+  }
+
+  /* Drop zone */
+  .drop-zone {
+    width: 100%;
+    max-width: 560px;
+    padding: 64px 40px;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .drop-zone:hover,
+  .drop-zone.drag-over {
+    border-color: var(--accent);
+  }
+
+  .drop-zone-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .drop-zone-text {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .drop-zone-hint {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .drop-zone input[type="file"] {
+    display: none;
+  }
+
+  /* Badge */
+  .badge {
+    position: fixed;
+    bottom: 44px;
+    right: 16px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .badge:hover {
+    opacity: 1;
+  }
+
+  /* Status bar */
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+</style>
+</head>
+<body>
+  <header class="header">
+    <a href="/" class="header-brand">freepdftoimage.app</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀️</button>
+  </header>
+
+  <main class="main">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon">📄</div>
+      <div class="drop-zone-text">Drop a PDF here or click to browse</div>
+      <div class="drop-zone-hint">.pdf files only</div>
+      <input type="file" id="fileInput" accept=".pdf,application/pdf">
+    </div>
+  </main>
+
+  <a href="https://freesuite.app" target="_blank" rel="noopener" class="badge">by freesuite.app</a>
+
+  <div class="status-bar">All processing happens in your browser</div>
+
+  <script type="module">
+    import * as pdfjsLib from './pdf.min.mjs';
+
+    // Theme management
+    const themeToggle = document.getElementById('themeToggle');
+    const THEME_KEY = 'suite_theme';
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem(THEME_KEY, theme);
+      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved) {
+      setTheme(saved);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Drop zone interactions
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+    });
+  </script>
+</body>
+</html>
