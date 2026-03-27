@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#C49A2A">
 <title>Free PDF to Image Converter — PDF to JPG, PNG Online | freepdftoimage.app</title>
 <meta name="description" content="Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser. Fast, private, unlimited.">
 <link rel="canonical" href="https://freepdftoimage.app/">
@@ -15,6 +16,7 @@
 <meta name="twitter:title" content="Free PDF to Image Converter — PDF to JPG, PNG Online">
 <meta name="twitter:description" content="Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser.">
 <meta name="twitter:image" content="https://freepdftoimage.app/og-image.svg">
+<link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1053,7 +1055,7 @@
   </header>
 
   <main class="main" id="mainView">
-    <div class="drop-zone" id="dropZone">
+    <div class="drop-zone" id="dropZone" role="button" aria-label="Drop a PDF here or click to browse" tabindex="0">
       <div class="drop-zone-icon">📄</div>
       <div class="drop-zone-text">Drop a PDF here or click to browse</div>
       <div class="drop-zone-hint">.pdf files only</div>
@@ -1078,10 +1080,10 @@
       <aside class="settings-panel" id="settingsPanel">
         <div class="settings-section">
           <div class="settings-label">Format</div>
-          <div class="toggle-group" id="formatGroup">
-            <button class="toggle-btn active" data-value="jpg">JPG</button>
-            <button class="toggle-btn" data-value="png">PNG</button>
-            <button class="toggle-btn" data-value="webp">WebP</button>
+          <div class="toggle-group" id="formatGroup" role="radiogroup" aria-label="Output format">
+            <button class="toggle-btn active" data-value="jpg" role="radio" aria-checked="true">JPG</button>
+            <button class="toggle-btn" data-value="png" role="radio" aria-checked="false">PNG</button>
+            <button class="toggle-btn" data-value="webp" role="radio" aria-checked="false">WebP</button>
           </div>
         </div>
         <div class="settings-section">
@@ -1089,17 +1091,17 @@
             <div class="settings-label" style="margin-bottom:0">Quality</div>
             <div class="quality-value" id="qualityValue">85%</div>
           </div>
-          <input type="range" class="quality-slider" id="qualitySlider" min="50" max="100" value="85">
+          <input type="range" class="quality-slider" id="qualitySlider" min="50" max="100" value="85" aria-label="Image quality" aria-valuenow="85" aria-valuemin="50" aria-valuemax="100">
           <div class="quality-hint" id="qualityHint"></div>
         </div>
         <div class="settings-section">
           <div class="settings-label">Resolution</div>
-          <div class="toggle-group" id="resGroup">
-            <button class="toggle-btn" data-value="1">1x</button>
-            <button class="toggle-btn" data-value="1.5">1.5x</button>
-            <button class="toggle-btn active" data-value="2">2x</button>
-            <button class="toggle-btn" data-value="3">3x</button>
-            <button class="toggle-btn" data-value="4">4x</button>
+          <div class="toggle-group" id="resGroup" role="radiogroup" aria-label="Output resolution">
+            <button class="toggle-btn" data-value="1" role="radio" aria-checked="false">1x</button>
+            <button class="toggle-btn" data-value="1.5" role="radio" aria-checked="false">1.5x</button>
+            <button class="toggle-btn active" data-value="2" role="radio" aria-checked="true">2x</button>
+            <button class="toggle-btn" data-value="3" role="radio" aria-checked="false">3x</button>
+            <button class="toggle-btn" data-value="4" role="radio" aria-checked="false">4x</button>
           </div>
           <div class="res-hint" id="resHint">2x = 144 DPI</div>
         </div>
@@ -1112,8 +1114,8 @@
           </ul>
         </div>
         <div class="zip-section">
-          <button class="zip-btn" id="zipBtn" disabled>Download 0 Pages as ZIP</button>
-          <div class="zip-progress" id="zipProgress">
+          <button class="zip-btn" id="zipBtn" disabled aria-disabled="true">Download 0 Pages as ZIP</button>
+          <div class="zip-progress" id="zipProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Conversion progress">
             <span id="zipProgressText">Converting page 1 of 1...</span>
             <div class="zip-progress-bar"><div class="zip-progress-fill" id="zipProgressFill"></div></div>
           </div>
@@ -1201,8 +1203,10 @@
   <p style="margin-bottom:12px;line-height:1.6;color:var(--text-secondary);font-size:13px;">
     Learn more: <a href="/pdf-to-jpg.html" style="color:var(--accent);text-decoration:none;">Convert PDF to JPG</a> · <a href="/pdf-to-png.html" style="color:var(--accent);text-decoration:none;">Convert PDF to PNG</a> · <a href="/pdf-to-image-for-presentations.html" style="color:var(--accent);text-decoration:none;">PDF to Image for Presentations</a> · <a href="/vs-ilovepdf.html" style="color:var(--accent);text-decoration:none;">freepdftoimage.app vs iLovePDF</a> · <a href="/vs-smallpdf.html" style="color:var(--accent);text-decoration:none;">freepdftoimage.app vs SmallPDF</a>
   </p>
+  <p style="margin-bottom:12px;line-height:1.6;color:var(--text-secondary);font-size:13px;">
+    More free tools: <a href="https://freemergepdf.app" style="color:var(--accent);text-decoration:none;">freemergepdf.app</a> · <a href="https://freeimagetopdf.app" style="color:var(--accent);text-decoration:none;">freeimagetopdf.app</a>
+  </p>
   <p>&copy; freepdftoimage.app</p>
-  <div class="more-tools-placeholder"></div>
 </footer>
 
   <script type="module">
@@ -1393,6 +1397,7 @@
       const selected = cards.filter(c => c.selected).length;
       zipBtn.textContent = `Download ${selected} Page${selected !== 1 ? 's' : ''} as ZIP`;
       zipBtn.disabled = selected === 0;
+      zipBtn.setAttribute('aria-disabled', String(selected === 0));
     }
 
     function toggleSelection(card) {
@@ -1417,12 +1422,20 @@
     function initToggleGroup(group, settingKey, onChange) {
       const btns = group.querySelectorAll('.toggle-btn');
       // Apply saved state
-      btns.forEach(b => b.classList.toggle('active', b.dataset.value === String(settings[settingKey])));
+      btns.forEach(b => {
+        const active = b.dataset.value === String(settings[settingKey]);
+        b.classList.toggle('active', active);
+        if (b.hasAttribute('aria-checked')) b.setAttribute('aria-checked', String(active));
+      });
       group.addEventListener('click', (e) => {
         const btn = e.target.closest('.toggle-btn');
         if (!btn) return;
-        btns.forEach(b => b.classList.remove('active'));
+        btns.forEach(b => {
+          b.classList.remove('active');
+          if (b.hasAttribute('aria-checked')) b.setAttribute('aria-checked', 'false');
+        });
         btn.classList.add('active');
+        if (btn.hasAttribute('aria-checked')) btn.setAttribute('aria-checked', 'true');
         settings[settingKey] = settingKey === 'quality' ? Number(btn.dataset.value) : (settingKey === 'resolution' ? Number(btn.dataset.value) : btn.dataset.value);
         saveSettings();
         if (onChange) onChange();
@@ -1484,9 +1497,11 @@
 
     // Quality slider
     qualitySlider.value = settings.quality;
+    qualitySlider.setAttribute('aria-valuenow', settings.quality);
     qualitySlider.addEventListener('input', () => {
       settings.quality = Number(qualitySlider.value);
       qualityValue.textContent = `${settings.quality}%`;
+      qualitySlider.setAttribute('aria-valuenow', settings.quality);
       saveSettings();
       updateSummary();
     });
@@ -1537,9 +1552,18 @@
 
     function applySettingsToAllPanels() {
       // Sync desktop panel
-      formatGroup.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === settings.format));
-      resGroup.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === String(settings.resolution)));
+      formatGroup.querySelectorAll('.toggle-btn').forEach(b => {
+        const active = b.dataset.value === settings.format;
+        b.classList.toggle('active', active);
+        if (b.hasAttribute('aria-checked')) b.setAttribute('aria-checked', String(active));
+      });
+      resGroup.querySelectorAll('.toggle-btn').forEach(b => {
+        const active = b.dataset.value === String(settings.resolution);
+        b.classList.toggle('active', active);
+        if (b.hasAttribute('aria-checked')) b.setAttribute('aria-checked', String(active));
+      });
       qualitySlider.value = settings.quality;
+      qualitySlider.setAttribute('aria-valuenow', settings.quality);
       updateQualityUI();
       updateResHint();
       updateSummary();
@@ -1631,6 +1655,7 @@
         dlBtn.className = 'page-download-btn';
         dlBtn.textContent = '↓';
         dlBtn.title = 'Download this page';
+        dlBtn.setAttribute('aria-label', `Download page ${i}`);
         wrap.appendChild(dlBtn);
 
         const label = document.createElement('div');
@@ -1731,7 +1756,11 @@
       const mime = mimeMap[settings.format];
       const quality = settings.format === 'png' ? undefined : settings.quality / 100;
 
-      return new Promise(resolve => offscreen.toBlob(resolve, mime, quality));
+      return new Promise(resolve => offscreen.toBlob((blob) => {
+        offscreen.width = 0;
+        offscreen.height = 0;
+        resolve(blob);
+      }, mime, quality));
     }
 
     async function downloadAllAsZip() {
@@ -1749,7 +1778,9 @@
       for (let i = 0; i < selected.length; i++) {
         const card = selected[i];
         zipProgressText.textContent = `Converting page ${i + 1} of ${selected.length}...`;
-        zipProgressFill.style.width = `${((i) / selected.length) * 100}%`;
+        const pct = Math.round((i / selected.length) * 100);
+        zipProgressFill.style.width = `${pct}%`;
+        zipProgress.setAttribute('aria-valuenow', pct);
         statusBar.textContent = `Converting page ${i + 1} of ${selected.length}...`;
 
         const blob = await renderPageToBlob(card.pdf, card.pageNum);
@@ -1759,6 +1790,7 @@
 
       zipProgressText.textContent = 'Creating ZIP...';
       zipProgressFill.style.width = '100%';
+      zipProgress.setAttribute('aria-valuenow', '100');
       statusBar.textContent = 'Creating ZIP...';
 
       // Use fflate.zipSync (loaded globally)
@@ -1811,7 +1843,11 @@
         const mime = mimeMap[settings.format];
         const quality = settings.format === 'png' ? undefined : settings.quality / 100;
 
-        const blob = await new Promise(resolve => offscreen.toBlob(resolve, mime, quality));
+        const blob = await new Promise(resolve => offscreen.toBlob((b) => {
+          offscreen.width = 0;
+          offscreen.height = 0;
+          resolve(b);
+        }, mime, quality));
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1840,6 +1876,11 @@
       const d = document.createElement('div');
       d.textContent = str;
       return d.innerHTML;
+    }
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
   </script>
 </body>

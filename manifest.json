@@ -1,0 +1,16 @@
+{
+  "name": "freepdftoimage.app",
+  "short_name": "PDF to Image",
+  "description": "Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf9f6",
+  "theme_color": "#C49A2A",
+  "icons": [
+    {
+      "src": "/og-image.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
