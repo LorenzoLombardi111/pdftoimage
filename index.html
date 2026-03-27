@@ -462,6 +462,69 @@
     display: flex;
   }
 
+  /* Download button */
+  .page-download-btn {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.15s, border-color 0.15s;
+  }
+
+  .page-canvas-wrap:hover .page-download-btn {
+    opacity: 1;
+  }
+
+  .page-download-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .page-download-btn {
+      opacity: 1;
+    }
+  }
+
+  /* Card spinner overlay */
+  .page-spinner-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    border-radius: 8px;
+  }
+
+  .page-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   /* Selection toolbar */
   .selection-bar {
     display: none;
@@ -956,6 +1019,12 @@
         const canvas = document.createElement('canvas');
         wrap.appendChild(canvas);
 
+        const dlBtn = document.createElement('button');
+        dlBtn.className = 'page-download-btn';
+        dlBtn.textContent = '↓';
+        dlBtn.title = 'Download this page';
+        wrap.appendChild(dlBtn);
+
         const label = document.createElement('div');
         label.className = 'page-label';
         label.textContent = `Page ${i}`;
@@ -965,7 +1034,14 @@
         pageGrid.appendChild(cardEl);
 
         const card = { wrap, canvas, pageNum: i, rendered: false, selected: false };
-        wrap.addEventListener('click', () => toggleSelection(card));
+        wrap.addEventListener('click', (e) => {
+          if (e.target.closest('.page-download-btn')) return;
+          toggleSelection(card);
+        });
+        dlBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          downloadPage(card);
+        });
         cards.push(card);
       }
 
@@ -995,6 +1071,53 @@
         for (const c of cards) {
           await renderPage(pdf, c.pageNum, c.canvas);
         }
+      }
+    }
+
+    async function downloadPage(card) {
+      if (card.downloading) return;
+      card.downloading = true;
+
+      // Show spinner
+      const overlay = document.createElement('div');
+      overlay.className = 'page-spinner-overlay';
+      overlay.innerHTML = '<div class="page-spinner"></div>';
+      card.wrap.appendChild(overlay);
+
+      try {
+        const page = await currentPdf.getPage(card.pageNum);
+        const scale = settings.resolution;
+        const viewport = page.getViewport({ scale });
+
+        const offscreen = document.createElement('canvas');
+        offscreen.width = viewport.width;
+        offscreen.height = viewport.height;
+        const ctx = offscreen.getContext('2d');
+
+        // White background for JPG
+        if (settings.format === 'jpg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, offscreen.width, offscreen.height);
+        }
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const mimeMap = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+        const mime = mimeMap[settings.format];
+        const quality = settings.format === 'png' ? undefined : settings.quality / 100;
+
+        const blob = await new Promise(resolve => offscreen.toBlob(resolve, mime, quality));
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `page-${card.pageNum}.${settings.format === 'jpg' ? 'jpg' : settings.format}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } finally {
+        overlay.remove();
+        card.downloading = false;
       }
     }
 
