@@ -37,3 +37,16 @@ freepdftoimage.app is a client-side PDF to image converter. It runs entirely in 
 - Vanilla JavaScript ES modules, no build step
 - Single index.html file with inline CSS
 - Google Fonts: DM Sans (UI), Lora (body)
+
+## Pages
+
+- / — Main app: PDF to image converter with drop zone, page grid, settings panel, ZIP download
+- /vs-ilovepdf.html — Comparison with iLovePDF: privacy, limits, format control, feature table
+- /vs-smallpdf.html — Comparison with SmallPDF: daily limits, privacy, pricing, feature table
+- /pdf-to-jpg.html — Guide to converting PDF to JPG: quality settings, resolution, use cases
+- /pdf-to-png.html — Guide to converting PDF to PNG: lossless quality, file sizes, when to use PNG
+- /pdf-to-image-for-presentations.html — Converting PDF slides to images for PowerPoint, Google Slides, Keynote
+
+## Optional
+
+- llms-full.txt — Full content of all pages for comprehensive context

@@ -1,0 +1,245 @@
+# freepdftoimage.app — Full Content
+
+> Complete text content of all pages on freepdftoimage.app for LLM context.
+
+---
+
+## / — Home (Main App)
+
+### Free PDF to Image Converter — Convert PDF to JPG, PNG Online
+
+#### What formats can freepdftoimage.app convert PDFs to?
+
+freepdftoimage.app supports three output formats: JPG (JPEG), PNG, and WebP. JPG is the most widely compatible format and produces compact files, making it ideal for sharing via email, embedding in documents, or uploading to websites that require image files. PNG delivers lossless quality with perfect pixel reproduction, which is essential for screenshots, diagrams, technical drawings, and any content where text sharpness matters. WebP is the modern web standard offering superior compression — images are typically 25-35% smaller than equivalent JPGs with no visible quality loss, making it perfect for web developers and designers optimizing page load times.
+
+You can adjust JPG and WebP quality from 50% to 100% using the quality slider. At 85% (the default), you get an excellent balance of file size and visual fidelity. PNG ignores the quality setting since it is inherently lossless. Switch between formats instantly using the toggle buttons in the settings panel — no need to reload your PDF.
+
+#### How do I convert a PDF to images for free?
+
+Converting a PDF to images with freepdftoimage.app takes just a few steps. First, drop your PDF file onto the upload area or click to browse your files. The app instantly loads your document and generates thumbnail previews of every page. Next, select which pages you want to convert by clicking on individual thumbnails — selected pages show an accent border and checkmark. Use the Select All button to grab every page at once.
+
+In the settings panel on the right, choose your output format (JPG, PNG, or WebP), adjust quality if needed, and pick your desired resolution from 1x to 4x. Finally, click the Download as ZIP button to convert and download all selected pages in a single archive. You can also download individual pages by hovering over any thumbnail and clicking the download arrow. The entire process runs locally in your browser — no account, no upload, no waiting for server processing.
+
+#### What resolution should I choose?
+
+The resolution multiplier controls how large your output images will be, measured in DPI (dots per inch). The default 2x setting produces 144 DPI images, which look sharp on modern displays and work well for most purposes including presentations, social media, and web use. For basic screen viewing where file size matters more than quality, 1x (72 DPI) creates the smallest files and is perfectly adequate for thumbnails or quick previews.
+
+If you need images for printing, choose 3x (216 DPI) or 4x (288 DPI). Most professional printers recommend at least 150 DPI, so 3x covers standard print jobs comfortably. The 4x option at 288 DPI approaches true print quality at 300 DPI and is best for high-quality brochures, posters, or archival purposes. Keep in mind that higher resolution means larger file sizes — a 4x image is roughly 16 times larger than 1x in pixel count, so choose the lowest resolution that meets your quality needs.
+
+#### Why is freepdftoimage.app better than other converters?
+
+Most PDF-to-image converters require you to upload your file to a remote server, wait for processing, and then download the result. This is slow, raises privacy concerns, and often comes with page limits, watermarks, or forced sign-ups. freepdftoimage.app works entirely in your browser — your PDF never leaves your device. There is no upload step, no server queue, and no file size restriction imposed by bandwidth limitations.
+
+The app uses PDF.js, Mozilla's production-grade PDF rendering engine, to accurately render every page. You get precise control over format, quality, and resolution with instant previews. The batch ZIP download uses fflate compression to bundle your images efficiently. Multiple PDFs can be loaded in a single session. The interface is clean, fast, and works on any modern browser across desktop and mobile devices — no installation needed.
+
+#### Is freepdftoimage.app safe for confidential documents?
+
+Absolutely. freepdftoimage.app is designed with privacy as a core principle. Your PDF files are processed entirely within your web browser using client-side JavaScript. No data is transmitted to any server at any point during the conversion process. The app does not use cookies for tracking, does not require an account, and does not store any information about your documents. Once you close the browser tab, all data is gone.
+
+This makes freepdftoimage.app suitable for sensitive business documents, legal contracts, medical records, financial statements, and any other confidential material. You can verify this yourself — open your browser's developer tools and check the Network tab during conversion. You will see zero outbound requests containing your document data. For organizations with strict data handling policies, this client-side architecture eliminates the compliance risks associated with uploading documents to third-party servers.
+
+### FAQ
+
+- Does freepdftoimage.app upload my files? No. All processing happens entirely in your browser using JavaScript. Your PDF never leaves your device.
+- What image formats are supported? JPG, PNG, and WebP.
+- Is there a page limit? No. PDFs of any length, with lazy loading for 50+ pages.
+- Can I choose which pages to convert? Yes. Click individual thumbnails, or use Select All / Deselect All.
+- What resolution options are available? 1x (72 DPI), 1.5x (108 DPI), 2x (144 DPI), 3x (216 DPI), 4x (288 DPI).
+- How do I download all pages at once? Select pages, click Download as ZIP.
+
+---
+
+## /vs-ilovepdf.html — freepdftoimage.app vs iLovePDF
+
+### freepdftoimage.app vs iLovePDF — Which PDF to Image Converter Should You Use?
+
+iLovePDF is one of the most popular online PDF toolkits, offering merge, split, compress, convert, and dozens of other features. It has earned its reputation through a clean interface and reliable server-side processing. For users who need a full PDF suite, iLovePDF is a strong choice. But when it comes specifically to converting PDF pages to images, freepdftoimage.app offers a fundamentally different — and in many cases better — approach.
+
+The core difference is architecture. iLovePDF uploads your PDF to their servers, processes it remotely, and returns the converted images. freepdftoimage.app runs entirely in your browser. Your document never leaves your device. For anyone handling sensitive documents — legal contracts, medical records, financial reports, internal business presentations — this distinction matters enormously.
+
+#### How does privacy compare between freepdftoimage.app and iLovePDF?
+
+When you use iLovePDF, your file travels to their servers in Spain and Luxembourg. They state files are deleted after a few hours, but the upload itself creates a window of exposure. freepdftoimage.app eliminates this entire category of risk. Processing happens via JavaScript in your browser tab. Open your browser's Network tab during conversion and you'll see zero outbound file transfers.
+
+#### Which tool gives you more control over image output?
+
+freepdftoimage.app provides granular control that iLovePDF does not. You choose from five resolution multipliers — 1x through 4x — letting you optimize for screen, web, or print. The quality slider adjusts JPEG and WebP compression from 50% to 100%. iLovePDF's converter offers more limited resolution options and fewer format choices. freepdftoimage.app supports JPG, PNG, and WebP.
+
+#### Does iLovePDF have limits that freepdftoimage.app doesn't?
+
+iLovePDF's free tier restricts the number of tasks per day. The paid Premium plan ($4/month) removes these caps. freepdftoimage.app has no limits — no daily caps, no page maximums, no file size restrictions.
+
+#### Where does iLovePDF still have the advantage?
+
+iLovePDF is a comprehensive PDF toolkit — merge, split, watermark, compress, edit, sign. freepdftoimage.app does one thing: PDF to image conversion, with maximum privacy and control.
+
+### Comparison Table
+
+| Feature | freepdftoimage.app | iLovePDF |
+|---|---|---|
+| Privacy | 100% client-side | Server upload required |
+| Upload Required | No | Yes |
+| Daily Limit | None | Limited (free) |
+| Account | No | Optional |
+| Formats | JPG, PNG, WebP | JPG |
+| Resolution | 1x-4x | Limited |
+| Page Selection | Yes | All pages only |
+| ZIP Download | Yes | Yes |
+| Offline | Yes | No |
+| Price | Free | Free (limited) / $4/mo |
+
+### FAQ
+
+- Does iLovePDF upload my files? Yes. freepdftoimage.app processes in-browser.
+- Does freepdftoimage.app have daily limits? No.
+- Can freepdftoimage.app do everything iLovePDF does? No — iLovePDF is a full PDF suite.
+- Which has better image quality? freepdftoimage.app offers more control (1x-4x, 50-100% quality).
+
+---
+
+## /vs-smallpdf.html — freepdftoimage.app vs SmallPDF
+
+### freepdftoimage.app vs SmallPDF — No Limits, No Upload PDF to Image Converter
+
+SmallPDF has built one of the most polished PDF platforms on the web. Its clean interface, desktop applications, and broad feature set have earned it millions of users. But SmallPDF's free tier limits you to 2 tasks per day. freepdftoimage.app has no limits.
+
+SmallPDF uploads files to servers. freepdftoimage.app processes locally in the browser. No upload, no server queue.
+
+#### How does SmallPDF's daily limit compare?
+
+SmallPDF: 2 tasks/day free, $12/month Pro. freepdftoimage.app: unlimited, free.
+
+#### Is freepdftoimage.app more private?
+
+Yes. SmallPDF uploads to servers. freepdftoimage.app processes locally.
+
+#### Which tool gives more format and quality control?
+
+SmallPDF outputs JPG with limited control. freepdftoimage.app: JPG, PNG, WebP with quality slider and 5 resolution presets.
+
+#### When is SmallPDF Pro worth it?
+
+For a full PDF toolkit with eSign, editing, desktop apps, and team features.
+
+### Comparison Table
+
+| Feature | freepdftoimage.app | SmallPDF |
+|---|---|---|
+| Daily Limit | None | 2 tasks/day (free) |
+| Privacy | 100% client-side | Server upload |
+| Account | No | Required for most |
+| Formats | JPG, PNG, WebP | JPG |
+| Resolution | 1x-4x | Limited |
+| Page Selection | Yes | Limited |
+| ZIP Download | Yes | Yes |
+| Offline | Yes | No |
+| Price | Free | Free (2/day) / $12/mo |
+
+### FAQ
+
+- Does SmallPDF limit free conversions? Yes, 2/day. freepdftoimage.app has no limits.
+- Is freepdftoimage.app more private? Yes, fully client-side.
+- Does SmallPDF support WebP? No. freepdftoimage.app does.
+- When is SmallPDF Pro worth it? For a complete PDF toolkit beyond just image conversion.
+
+---
+
+## /pdf-to-jpg.html — Convert PDF to JPG Free
+
+### Convert PDF to JPG Free — No Upload Required
+
+JPG is the universal image format. freepdftoimage.app converts PDF pages to high-quality JPG images entirely in your browser.
+
+#### Why convert a PDF to JPG images?
+
+PDFs can't be inserted directly into social media, email bodies, or presentation slides. JPG bridges this gap with universal compatibility.
+
+#### How does freepdftoimage.app handle JPG quality?
+
+Quality slider from 50% to 100%. Default 85% balances quality and file size. 95% for print quality. 60-70% for smallest files. White background painted behind transparent elements.
+
+#### What resolution should I choose for JPG output?
+
+1x (72 DPI): ~612x792px for previews. 2x (144 DPI): ~1224x1584px for presentations. 3x-4x for print. Higher resolution = larger files.
+
+#### What are the recommended quality settings?
+
+- Default: JPG, 85%, 2x — sharp images, reasonable size
+- Professional: 90-95%, 3x — client deliverables
+- Batch: 70%, 1.5x — email distribution of large documents
+
+### FAQ
+
+- How do I convert PDF to JPG? Drop PDF, select pages, choose JPG format, download.
+- What quality should I use? 85% default, 95% for print, 60-70% for smallest files.
+- Multiple pages? Yes, with Select All and ZIP download.
+- Is quality good? Yes, uses PDF.js rendering engine.
+- Can I choose pages? Yes, click individual thumbnails.
+
+---
+
+## /pdf-to-png.html — Convert PDF to PNG Free
+
+### Convert PDF to PNG Free — Lossless Quality, No Upload
+
+PNG uses lossless compression — every pixel is reproduced exactly. freepdftoimage.app converts PDF pages to PNG entirely in your browser.
+
+#### When is PNG better than JPG?
+
+For text, line art, diagrams, code, tables — anything with sharp edges. JPG creates artifacts around text; PNG preserves every character perfectly.
+
+#### How do PNG file sizes compare?
+
+PNG at 2x: 400-800 KB/page. JPG at 85%/2x: ~150 KB/page. The tradeoff is perfect quality for larger files.
+
+#### What resolution for PNG?
+
+2x for screen, 3x for zoom/documentation, 4x for print. Quality slider is disabled for PNG (inherently lossless).
+
+#### Why use freepdftoimage.app?
+
+No upload, instant conversion, full page selection, batch ZIP, 5 resolution options. Uses PDF.js for accurate rendering.
+
+### FAQ
+
+- How do I convert PDF to PNG? Drop PDF, select PNG format, choose resolution, download.
+- PNG vs JPG? PNG for text/diagrams (lossless), JPG for photos (smaller).
+- Why are PNGs larger? Lossless compression preserves all data.
+- Text quality? Pixel-perfect, no JPEG artifacts.
+- Specific pages? Yes, click to select individual pages.
+
+---
+
+## /pdf-to-image-for-presentations.html — PDF to Image for Presentations
+
+### Convert PDF Pages to Images for Presentations
+
+Presentation software doesn't embed PDF pages natively. Convert PDF pages to images for PowerPoint, Google Slides, and Keynote with freepdftoimage.app.
+
+#### Why convert for presentations?
+
+PDFs can't be dragged into slides. Converting to images enables insertion, cropping, annotation, and layout flexibility.
+
+#### Best settings for presentations?
+
+2x (144 DPI) for standard 1080p. 3x for 4K/retina. PNG for text-heavy slides, JPG for photo-heavy. WebP for smaller files (check compatibility).
+
+#### How to use in PowerPoint?
+
+Insert > Pictures > select image. For full-slide: set to match slide dimensions. Google Slides: Insert > Image > Upload. Keynote: drag onto slide.
+
+#### Social media sharing?
+
+JPG 85% at 2x for clean, lightweight social images. Select specific impactful slides rather than exporting everything.
+
+#### PDF reports and handouts?
+
+Use page thumbnails to find specific charts/tables. Convert at 3x PNG for maximum readability of small text and numbers.
+
+### FAQ
+
+- Best resolution for presentations? 2x standard, 3x for 4K/large displays.
+- JPG or PNG for slides? PNG for text, JPG for photos.
+- Convert PDF presentation to slides? Yes, load PDF, select pages, download as ZIP.
+- Insert into PowerPoint? Insert > Pictures, set to fill slide.
+- Crisp on projector? Yes at 2x+ resolution for 1080p projectors.
