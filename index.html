@@ -33,6 +33,7 @@
 
   html, body {
     height: 100%;
+    overflow: hidden;
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
@@ -711,6 +712,138 @@
   .zip-done-actions .zip-redownload:hover {
     opacity: 0.9;
   }
+
+  /* Toast */
+  .toast-container {
+    position: fixed;
+    bottom: 44px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    padding: 10px 20px;
+    background: #1a1917;
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: toastIn 0.2s ease forwards, toastOut 0.2s ease 2.8s forwards;
+    pointer-events: auto;
+    white-space: nowrap;
+  }
+
+  [data-theme="dark"] .toast {
+    background: #f0ede8;
+    color: #1a1917;
+  }
+
+  .toast.warning {
+    background: #b45309;
+    color: #fff;
+  }
+
+  [data-theme="dark"] .toast.warning {
+    background: #d97706;
+    color: #fff;
+  }
+
+  @keyframes toastIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes toastOut {
+    to { opacity: 0; transform: translateY(-10px); }
+  }
+
+  /* Add another PDF button */
+  .add-pdf-btn {
+    height: 32px;
+    padding: 0 14px;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .add-pdf-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .add-pdf-btn input[type="file"] {
+    display: none;
+  }
+
+  /* PDF divider */
+  .pdf-divider {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .pdf-divider::before,
+  .pdf-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Upgrade prompt */
+  .upgrade-prompt {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-ui);
+    text-align: center;
+  }
+
+  .upgrade-prompt-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .upgrade-prompt-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .upgrade-prompt-link {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .upgrade-prompt-link:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
@@ -738,6 +871,7 @@
         <div class="selection-bar" id="selectionBar">
           <button class="sel-btn" id="selectAllBtn">Select All</button>
           <button class="sel-btn" id="deselectAllBtn">Deselect All</button>
+          <button class="add-pdf-btn" id="addPdfBtn">+ Add another PDF<input type="file" id="addPdfInput" accept=".pdf,application/pdf"></button>
           <span class="sel-count" id="selCount"></span>
         </div>
         <button class="mobile-settings-toggle" id="mobileSettingsToggle">&#9881; Settings</button>
@@ -792,11 +926,18 @@
             <button id="zipConvertAgain">Convert Again</button>
           </div>
         </div>
+        <div class="upgrade-prompt" id="upgrade-prompt">
+          <div class="upgrade-prompt-title">Batch Convert &amp; Cloud Storage</div>
+          <div class="upgrade-prompt-desc">Convert entire folders, save to Freesuite cloud</div>
+          <a href="https://freesuite.app" target="_blank" rel="noopener" class="upgrade-prompt-link">Unlock with freesuite.app · $2.88/mo</a>
+        </div>
       </aside>
     </div>
   </div>
 
   <a href="https://freesuite.app" target="_blank" rel="noopener" class="badge">by freesuite.app</a>
+
+  <div class="toast-container" id="toastContainer"></div>
 
   <div class="status-bar">All processing happens in your browser</div>
 
@@ -840,12 +981,37 @@
     const zipDoneActions = document.getElementById('zipDoneActions');
     const zipRedownload = document.getElementById('zipRedownload');
     const zipConvertAgain = document.getElementById('zipConvertAgain');
+    const toastContainer = document.getElementById('toastContainer');
+    const addPdfBtn = document.getElementById('addPdfBtn');
+    const addPdfInput = document.getElementById('addPdfInput');
 
-    let currentPdf = null;
+    let pdfs = []; // { pdf, name, numPages }
     let lastZipUrl = null;
     let observer = null;
     let cards = [];
     let totalPages = 0;
+
+    // Toast system
+    function showToast(message, type) {
+      const el = document.createElement('div');
+      el.className = 'toast' + (type === 'warning' ? ' warning' : '');
+      el.textContent = message;
+      toastContainer.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }
+
+    // File validation
+    function validateFile(file) {
+      if (!file) return false;
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        showToast('Only PDF files are supported');
+        return false;
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        showToast('This PDF is over 50 MB — processing may be slow', 'warning');
+      }
+      return true;
+    }
 
     // Settings state
     const SETTINGS_KEY = 'pdf_converter_settings';
@@ -901,12 +1067,32 @@
       e.preventDefault();
       dropZone.classList.remove('drag-over');
       const file = e.dataTransfer.files[0];
-      if (file && file.type === 'application/pdf') handleFile(file);
+      if (validateFile(file)) handleFile(file);
     });
 
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
-      if (file) handleFile(file);
+      if (file && validateFile(file)) handleFile(file);
+    });
+
+    // Add another PDF
+    addPdfBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      addPdfInput.click();
+    });
+    addPdfInput.addEventListener('click', (e) => e.stopPropagation());
+    addPdfInput.addEventListener('change', () => {
+      const file = addPdfInput.files[0];
+      if (file && validateFile(file)) handleFile(file, true);
+      addPdfInput.value = '';
+    });
+
+    // Drop on grid view to add more PDFs
+    gridView.addEventListener('dragover', (e) => e.preventDefault());
+    gridView.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (validateFile(file)) handleFile(file, true);
     });
 
     // Clear button
@@ -914,7 +1100,8 @@
 
     function resetToDropZone() {
       if (observer) { observer.disconnect(); observer = null; }
-      if (currentPdf) { currentPdf.destroy(); currentPdf = null; }
+      for (const p of pdfs) p.pdf.destroy();
+      pdfs = [];
       pageGrid.innerHTML = '';
       cards = [];
       totalPages = 0;
@@ -1104,15 +1291,34 @@
     });
 
     // PDF loading
-    async function handleFile(file) {
+    async function handleFile(file, append) {
       statusBar.textContent = 'Loading PDF…';
 
-      const arrayBuffer = await file.arrayBuffer();
-      const data = new Uint8Array(arrayBuffer.slice(0));
+      let pdf;
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer.slice(0));
+        pdf = await pdfjsLib.getDocument({ data }).promise;
+      } catch (err) {
+        if (err && err.name === 'PasswordException') {
+          showToast('This PDF is password-protected');
+        } else {
+          showToast('Failed to load PDF');
+        }
+        if (!append && pdfs.length === 0) return;
+        statusBar.textContent = 'All processing happens in your browser';
+        return;
+      }
 
-      const pdf = await pdfjsLib.getDocument({ data }).promise;
-      currentPdf = pdf;
       const numPages = pdf.numPages;
+      const pdfEntry = { pdf, name: file.name, numPages };
+      pdfs.push(pdfEntry);
+
+      if (!append) {
+        pageGrid.innerHTML = '';
+        cards = [];
+        totalPages = 0;
+      }
 
       // Switch to grid view
       mainView.style.display = 'none';
@@ -1120,14 +1326,26 @@
       clearBtn.style.display = 'inline-flex';
       selectionBar.style.display = 'flex';
 
-      totalPages = numPages;
-      gridHeader.innerHTML = `<strong>${escapeHtml(file.name)}</strong> · ${numPages} page${numPages !== 1 ? 's' : ''}`;
-      statusBar.textContent = `${numPages} page${numPages !== 1 ? 's' : ''} loaded`;
+      totalPages += numPages;
 
-      pageGrid.innerHTML = '';
-      cards = [];
+      // Update header with all PDFs
+      if (pdfs.length === 1) {
+        gridHeader.innerHTML = `<strong>${escapeHtml(file.name)}</strong> · ${totalPages} page${totalPages !== 1 ? 's' : ''}`;
+      } else {
+        gridHeader.innerHTML = `<strong>${pdfs.length} PDFs</strong> · ${totalPages} page${totalPages !== 1 ? 's' : ''}`;
+      }
+      statusBar.textContent = `${totalPages} page${totalPages !== 1 ? 's' : ''} loaded`;
+
+      // Add divider if appending
+      if (append && cards.length > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'pdf-divider';
+        divider.textContent = file.name;
+        pageGrid.appendChild(divider);
+      }
 
       const useLazy = numPages >= 50;
+      const newCards = [];
 
       for (let i = 1; i <= numPages; i++) {
         const cardEl = document.createElement('div');
@@ -1159,7 +1377,7 @@
         cardEl.appendChild(label);
         pageGrid.appendChild(cardEl);
 
-        const card = { wrap, canvas, pageNum: i, rendered: false, selected: false };
+        const card = { wrap, canvas, pageNum: i, rendered: false, selected: false, pdf };
         wrap.addEventListener('click', (e) => {
           if (e.target.closest('.page-download-btn')) return;
           toggleSelection(card);
@@ -1169,32 +1387,32 @@
           downloadPage(card);
         });
         cards.push(card);
+        newCards.push(card);
       }
 
       updateSelectionCount();
 
       if (useLazy) {
-        // Lazy render with IntersectionObserver
-        observer = new IntersectionObserver((entries) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            const wrap = entry.target;
-            const idx = cards.findIndex(c => c.wrap === wrap);
-            if (idx === -1 || cards[idx].rendered) continue;
-            cards[idx].rendered = true;
-            observer.unobserve(wrap);
-            renderPage(pdf, cards[idx].pageNum, cards[idx].canvas).then(() => {
-              wrap.classList.remove('placeholder');
-            });
-          }
-        }, { root: gridView, rootMargin: '200px' });
-
-        for (const c of cards) {
+        if (!observer) {
+          observer = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              const wrap = entry.target;
+              const idx = cards.findIndex(c => c.wrap === wrap);
+              if (idx === -1 || cards[idx].rendered) continue;
+              cards[idx].rendered = true;
+              observer.unobserve(wrap);
+              renderPage(cards[idx].pdf, cards[idx].pageNum, cards[idx].canvas).then(() => {
+                wrap.classList.remove('placeholder');
+              });
+            }
+          }, { root: gridMain, rootMargin: '200px' });
+        }
+        for (const c of newCards) {
           observer.observe(c.wrap);
         }
       } else {
-        // Render all pages sequentially
-        for (const c of cards) {
+        for (const c of newCards) {
           await renderPage(pdf, c.pageNum, c.canvas);
         }
       }
@@ -1228,8 +1446,8 @@
       document.body.removeChild(a);
     }
 
-    async function renderPageToBlob(pageNum) {
-      const page = await currentPdf.getPage(pageNum);
+    async function renderPageToBlob(pdf, pageNum) {
+      const page = await pdf.getPage(pageNum);
       const scale = settings.resolution;
       const viewport = page.getViewport({ scale });
 
@@ -1270,7 +1488,7 @@
         zipProgressFill.style.width = `${((i) / selected.length) * 100}%`;
         statusBar.textContent = `Converting page ${i + 1} of ${selected.length}...`;
 
-        const blob = await renderPageToBlob(card.pageNum);
+        const blob = await renderPageToBlob(card.pdf, card.pageNum);
         const arrayBuf = await blob.arrayBuffer();
         files[`page-${card.pageNum}.${ext}`] = new Uint8Array(arrayBuf);
       }
@@ -1308,7 +1526,7 @@
       card.wrap.appendChild(overlay);
 
       try {
-        const page = await currentPdf.getPage(card.pageNum);
+        const page = await card.pdf.getPage(card.pageNum);
         const scale = settings.resolution;
         const viewport = page.getViewport({ scale });
 
