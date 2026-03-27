@@ -6,6 +6,7 @@ const ASSETS = [
   '/pdf.worker.min.mjs',
   '/fflate.min.js',
   '/og-image.svg',
+  '/favicon.svg',
   '/manifest.json',
   '/vs-ilovepdf.html',
   '/vs-smallpdf.html',

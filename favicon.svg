@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#faf9f6"/>
+  <!-- PDF page -->
+  <rect x="120" y="72" width="200" height="260" rx="12" fill="#fff" stroke="#e8e4dd" stroke-width="8"/>
+  <rect x="152" y="120" width="136" height="8" rx="4" fill="#e8e4dd"/>
+  <rect x="152" y="148" width="104" height="8" rx="4" fill="#e8e4dd"/>
+  <rect x="152" y="176" width="120" height="8" rx="4" fill="#e8e4dd"/>
+  <rect x="152" y="204" width="90" height="8" rx="4" fill="#e8e4dd"/>
+  <!-- Arrow -->
+  <path d="M220 360 L220 410 L190 410 L235 460 L280 410 L250 410 L250 360 Z" fill="#C49A2A"/>
+  <!-- Image frame -->
+  <rect x="300" y="240" width="120" height="120" rx="12" fill="#C49A2A" opacity="0.15"/>
+  <rect x="300" y="240" width="120" height="120" rx="12" fill="none" stroke="#C49A2A" stroke-width="6"/>
+  <!-- Mountain/sun icon inside image frame -->
+  <circle cx="340" cy="280" r="12" fill="#C49A2A" opacity="0.5"/>
+  <path d="M310 340 L340 300 L360 320 L380 290 L410 340 Z" fill="#C49A2A" opacity="0.6"/>
+</svg>
