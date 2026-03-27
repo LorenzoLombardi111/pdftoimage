@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>freepdftoimage.app — PDF to Image Converter</title>
+<title>Free PDF to Image Converter — PDF to JPG, PNG Online | freepdftoimage.app</title>
+<meta name="description" content="Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser. Fast, private, unlimited.">
+<link rel="canonical" href="https://freepdftoimage.app/">
+<meta property="og:title" content="Free PDF to Image Converter — PDF to JPG, PNG Online">
+<meta property="og:description" content="Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser.">
+<meta property="og:image" content="https://freepdftoimage.app/og-image.svg">
+<meta property="og:url" content="https://freepdftoimage.app/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free PDF to Image Converter — PDF to JPG, PNG Online">
+<meta name="twitter:description" content="Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser.">
+<meta name="twitter:image" content="https://freepdftoimage.app/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -31,13 +42,24 @@
     --accent: #D4A835;
   }
 
-  html, body {
+  html {
     height: 100%;
-    overflow: hidden;
+  }
+
+  body {
+    min-height: 100%;
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
     transition: background 0.3s, color 0.3s;
+  }
+
+  /* App wrapper locks to 100vh */
+  .app-shell {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   /* Header */
@@ -844,9 +866,184 @@
   .upgrade-prompt-link:hover {
     text-decoration: underline;
   }
+
+  /* SEO content below the fold */
+  .seo-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 64px 24px 48px;
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .seo-content h1 {
+    font-family: var(--font-ui);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .seo-content h2 {
+    font-family: var(--font-ui);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--text);
+  }
+
+  .seo-content p {
+    font-size: 15px;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+  }
+
+  .seo-content .faq-section {
+    margin-top: 48px;
+  }
+
+  .seo-content .faq-section h2 {
+    margin-bottom: 20px;
+  }
+
+  .seo-content details {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .seo-content summary {
+    padding: 14px 18px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text);
+    background: var(--surface);
+    list-style: none;
+  }
+
+  .seo-content summary::-webkit-details-marker { display: none; }
+  .seo-content summary::marker { display: none; content: ''; }
+
+  .seo-content summary::before {
+    content: '+ ';
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .seo-content details[open] summary::before {
+    content: '− ';
+  }
+
+  .seo-content details p {
+    padding: 12px 18px 16px;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .seo-footer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 24px 48px;
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "freepdftoimage.app",
+      "url": "https://freepdftoimage.app/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Convert PDF to JPG, PNG, or WebP for free. No upload, no signup — all processing happens in your browser."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does freepdftoimage.app upload my files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. All processing happens entirely in your browser using JavaScript. Your PDF never leaves your device — nothing is uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can convert PDF pages to JPG (JPEG), PNG, or WebP. JPG is best for photos and smaller files, PNG for lossless quality, and WebP for modern web use with excellent compression."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a page limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You can convert PDFs of any length. For PDFs with 50 or more pages, thumbnails are lazy-loaded for performance. You can also add multiple PDFs in a single session."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I choose which pages to convert?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. After loading a PDF, click individual page thumbnails to select or deselect them. Use Select All or Deselect All for bulk operations, then download selected pages individually or as a ZIP."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What resolution options are available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Choose from 1x (72 DPI), 1.5x (108 DPI), 2x (144 DPI), 3x (216 DPI), or 4x (288 DPI). Higher resolution produces larger, sharper images suitable for printing or high-DPI displays."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I download all pages at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Select the pages you want, then click the Download as ZIP button in the settings panel. All selected pages are rendered at your chosen resolution and format, bundled into a single ZIP file."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freepdftoimage.app/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
+<div class="app-shell">
   <header class="header">
     <a href="/" class="header-brand">freepdftoimage.app</a>
     <div class="header-actions">
@@ -940,6 +1137,70 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <div class="status-bar">All processing happens in your browser</div>
+</div><!-- /.app-shell -->
+
+<div class="seo-content">
+  <h1>Free PDF to Image Converter — Convert PDF to JPG, PNG Online</h1>
+
+  <h2>What formats can freepdftoimage.app convert PDFs to?</h2>
+  <p>freepdftoimage.app supports three output formats: JPG (JPEG), PNG, and WebP. JPG is the most widely compatible format and produces compact files, making it ideal for sharing via email, embedding in documents, or uploading to websites that require image files. PNG delivers lossless quality with perfect pixel reproduction, which is essential for screenshots, diagrams, technical drawings, and any content where text sharpness matters. WebP is the modern web standard offering superior compression — images are typically 25-35% smaller than equivalent JPGs with no visible quality loss, making it perfect for web developers and designers optimizing page load times.</p>
+  <p>You can adjust JPG and WebP quality from 50% to 100% using the quality slider. At 85% (the default), you get an excellent balance of file size and visual fidelity. PNG ignores the quality setting since it is inherently lossless. Switch between formats instantly using the toggle buttons in the settings panel — no need to reload your PDF.</p>
+
+  <h2>How do I convert a PDF to images for free?</h2>
+  <p>Converting a PDF to images with freepdftoimage.app takes just a few steps. First, drop your PDF file onto the upload area or click to browse your files. The app instantly loads your document and generates thumbnail previews of every page. Next, select which pages you want to convert by clicking on individual thumbnails — selected pages show an accent border and checkmark. Use the Select All button to grab every page at once.</p>
+  <p>In the settings panel on the right, choose your output format (JPG, PNG, or WebP), adjust quality if needed, and pick your desired resolution from 1x to 4x. Finally, click the Download as ZIP button to convert and download all selected pages in a single archive. You can also download individual pages by hovering over any thumbnail and clicking the download arrow. The entire process runs locally in your browser — no account, no upload, no waiting for server processing.</p>
+
+  <h2>What resolution should I choose?</h2>
+  <p>The resolution multiplier controls how large your output images will be, measured in DPI (dots per inch). The default 2x setting produces 144 DPI images, which look sharp on modern displays and work well for most purposes including presentations, social media, and web use. For basic screen viewing where file size matters more than quality, 1x (72 DPI) creates the smallest files and is perfectly adequate for thumbnails or quick previews.</p>
+  <p>If you need images for printing, choose 3x (216 DPI) or 4x (288 DPI). Most professional printers recommend at least 150 DPI, so 3x covers standard print jobs comfortably. The 4x option at 288 DPI approaches true print quality at 300 DPI and is best for high-quality brochures, posters, or archival purposes. Keep in mind that higher resolution means larger file sizes — a 4x image is roughly 16 times larger than 1x in pixel count, so choose the lowest resolution that meets your quality needs.</p>
+
+  <h2>Why is freepdftoimage.app better than other converters?</h2>
+  <p>Most PDF-to-image converters require you to upload your file to a remote server, wait for processing, and then download the result. This is slow, raises privacy concerns, and often comes with page limits, watermarks, or forced sign-ups. freepdftoimage.app works entirely in your browser — your PDF never leaves your device. There is no upload step, no server queue, and no file size restriction imposed by bandwidth limitations.</p>
+  <p>The app uses PDF.js, Mozilla's production-grade PDF rendering engine, to accurately render every page. You get precise control over format, quality, and resolution with instant previews. The batch ZIP download uses fflate compression to bundle your images efficiently. Multiple PDFs can be loaded in a single session. The interface is clean, fast, and works on any modern browser across desktop and mobile devices — no installation needed.</p>
+
+  <h2>Is freepdftoimage.app safe for confidential documents?</h2>
+  <p>Absolutely. freepdftoimage.app is designed with privacy as a core principle. Your PDF files are processed entirely within your web browser using client-side JavaScript. No data is transmitted to any server at any point during the conversion process. The app does not use cookies for tracking, does not require an account, and does not store any information about your documents. Once you close the browser tab, all data is gone.</p>
+  <p>This makes freepdftoimage.app suitable for sensitive business documents, legal contracts, medical records, financial statements, and any other confidential material. You can verify this yourself — open your browser's developer tools and check the Network tab during conversion. You will see zero outbound requests containing your document data. For organizations with strict data handling policies, this client-side architecture eliminates the compliance risks associated with uploading documents to third-party servers.</p>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <details>
+      <summary>Does freepdftoimage.app upload my files?</summary>
+      <p>No. All processing happens entirely in your browser using JavaScript. Your PDF never leaves your device — nothing is uploaded to any server.</p>
+    </details>
+
+    <details>
+      <summary>What image formats are supported?</summary>
+      <p>You can convert PDF pages to JPG (JPEG), PNG, or WebP. JPG is best for photos and smaller files, PNG for lossless quality, and WebP for modern web use with excellent compression.</p>
+    </details>
+
+    <details>
+      <summary>Is there a page limit?</summary>
+      <p>No. You can convert PDFs of any length. For PDFs with 50 or more pages, thumbnails are lazy-loaded for performance. You can also add multiple PDFs in a single session.</p>
+    </details>
+
+    <details>
+      <summary>Can I choose which pages to convert?</summary>
+      <p>Yes. After loading a PDF, click individual page thumbnails to select or deselect them. Use Select All or Deselect All for bulk operations, then download selected pages individually or as a ZIP.</p>
+    </details>
+
+    <details>
+      <summary>What resolution options are available?</summary>
+      <p>Choose from 1x (72 DPI), 1.5x (108 DPI), 2x (144 DPI), 3x (216 DPI), or 4x (288 DPI). Higher resolution produces larger, sharper images suitable for printing or high-DPI displays.</p>
+    </details>
+
+    <details>
+      <summary>How do I download all pages at once?</summary>
+      <p>Select the pages you want, then click the Download as ZIP button in the settings panel. All selected pages are rendered at your chosen resolution and format, bundled into a single ZIP file.</p>
+    </details>
+  </div>
+</div>
+
+<footer class="seo-footer">
+  <p>&copy; freepdftoimage.app</p>
+  <div class="more-tools-placeholder"></div>
+</footer>
 
   <script type="module">
     import * as pdfjsLib from './pdf.min.mjs';

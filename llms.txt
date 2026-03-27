@@ -1,0 +1,39 @@
+# freepdftoimage.app
+
+> Free PDF to Image Converter — convert PDF pages to JPG, PNG, or WebP directly in your browser.
+
+## Summary
+
+freepdftoimage.app is a client-side PDF to image converter. It runs entirely in the browser using PDF.js and fflate. No files are uploaded to any server. Users drop a PDF, select pages, choose format/quality/resolution, and download images individually or as a ZIP.
+
+## Key Facts
+
+- 100% client-side: no server uploads, no accounts, no tracking
+- Supports JPG, PNG, and WebP output formats
+- Quality slider: 50-100% for JPG and WebP (PNG is lossless)
+- Resolution options: 1x (72 DPI), 1.5x (108 DPI), 2x (144 DPI), 3x (216 DPI), 4x (288 DPI)
+- Page selection: click individual thumbnails, Select All, or Deselect All
+- Batch download: selected pages bundled as ZIP using fflate compression
+- Individual page download: hover download button on any thumbnail
+- Multi-PDF support: add multiple PDFs in a single session with filename dividers
+- Lazy rendering: IntersectionObserver for PDFs with 50+ pages
+- Dark mode: toggle with localStorage persistence
+- Settings persist to localStorage between visits
+- Built with PDF.js (Mozilla), fflate, DM Sans, Lora fonts
+- Part of the freesuite.app family of tools
+
+## Comparisons
+
+- vs. ilovepdf.com: freepdftoimage.app never uploads your files; ilovepdf requires server upload
+- vs. pdf2png.com: freepdftoimage.app offers JPG, PNG, and WebP; pdf2png is PNG only
+- vs. Adobe Acrobat: freepdftoimage.app is free with no account; Acrobat requires subscription
+- vs. Smallpdf: freepdftoimage.app has no daily limits; Smallpdf limits free conversions
+- vs. CloudConvert: freepdftoimage.app works offline after load; CloudConvert needs constant connection
+
+## Technical Stack
+
+- PDF.js (pdf.min.mjs, pdf.worker.min.mjs) for PDF parsing and rendering
+- fflate (fflate.min.js) for ZIP compression
+- Vanilla JavaScript ES modules, no build step
+- Single index.html file with inline CSS
+- Google Fonts: DM Sans (UI), Lora (body)
