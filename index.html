@@ -201,6 +201,7 @@
   }
 
   .page-canvas-wrap {
+    position: relative;
     width: 100%;
     aspect-ratio: 8.5 / 11;
     background: #ffffff;
@@ -211,6 +212,68 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s, border-width 0.15s;
+  }
+
+  .page-canvas-wrap.selected {
+    border: 2px solid var(--accent);
+  }
+
+  .page-checkmark {
+    display: none;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .page-canvas-wrap.selected .page-checkmark {
+    display: flex;
+  }
+
+  /* Selection toolbar */
+  .selection-bar {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-family: var(--font-ui);
+  }
+
+  .sel-btn {
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .sel-btn:hover {
+    border-color: var(--accent);
+  }
+
+  .sel-count {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
   }
 
   [data-theme="dark"] .page-canvas-wrap {
@@ -290,6 +353,11 @@
 
   <div class="grid-view" id="gridView">
     <div class="grid-header" id="gridHeader"></div>
+    <div class="selection-bar" id="selectionBar">
+      <button class="sel-btn" id="selectAllBtn">Select All</button>
+      <button class="sel-btn" id="deselectAllBtn">Deselect All</button>
+      <span class="sel-count" id="selCount"></span>
+    </div>
     <div class="page-grid" id="pageGrid"></div>
   </div>
 
@@ -311,9 +379,15 @@
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const statusBar = document.querySelector('.status-bar');
+    const selectionBar = document.getElementById('selectionBar');
+    const selectAllBtn = document.getElementById('selectAllBtn');
+    const deselectAllBtn = document.getElementById('deselectAllBtn');
+    const selCount = document.getElementById('selCount');
 
     let currentPdf = null;
     let observer = null;
+    let cards = [];
+    let totalPages = 0;
 
     // Theme management
     const THEME_KEY = 'suite_theme';
@@ -367,12 +441,40 @@
       if (observer) { observer.disconnect(); observer = null; }
       if (currentPdf) { currentPdf.destroy(); currentPdf = null; }
       pageGrid.innerHTML = '';
+      cards = [];
+      totalPages = 0;
       gridView.style.display = 'none';
+      selectionBar.style.display = 'none';
       mainView.style.display = 'flex';
       clearBtn.style.display = 'none';
       fileInput.value = '';
       statusBar.textContent = 'All processing happens in your browser';
     }
+
+    // Selection
+    function updateSelectionCount() {
+      const selected = cards.filter(c => c.selected).length;
+      selCount.textContent = `${selected} of ${totalPages} selected`;
+      statusBar.textContent = selected > 0
+        ? `${selected} of ${totalPages} page${totalPages !== 1 ? 's' : ''} selected`
+        : `${totalPages} page${totalPages !== 1 ? 's' : ''} loaded`;
+    }
+
+    function toggleSelection(card) {
+      card.selected = !card.selected;
+      card.wrap.classList.toggle('selected', card.selected);
+      updateSelectionCount();
+    }
+
+    selectAllBtn.addEventListener('click', () => {
+      for (const c of cards) { c.selected = true; c.wrap.classList.add('selected'); }
+      updateSelectionCount();
+    });
+
+    deselectAllBtn.addEventListener('click', () => {
+      for (const c of cards) { c.selected = false; c.wrap.classList.remove('selected'); }
+      updateSelectionCount();
+    });
 
     // PDF loading
     async function handleFile(file) {
@@ -389,22 +491,29 @@
       mainView.style.display = 'none';
       gridView.style.display = 'block';
       clearBtn.style.display = 'inline-flex';
+      selectionBar.style.display = 'flex';
 
+      totalPages = numPages;
       gridHeader.innerHTML = `<strong>${escapeHtml(file.name)}</strong> · ${numPages} page${numPages !== 1 ? 's' : ''}`;
       statusBar.textContent = `${numPages} page${numPages !== 1 ? 's' : ''} loaded`;
 
       pageGrid.innerHTML = '';
+      cards = [];
 
       const useLazy = numPages >= 50;
-      const cards = [];
 
       for (let i = 1; i <= numPages; i++) {
-        const card = document.createElement('div');
-        card.className = 'page-card';
+        const cardEl = document.createElement('div');
+        cardEl.className = 'page-card';
 
         const wrap = document.createElement('div');
         wrap.className = 'page-canvas-wrap' + (useLazy ? ' placeholder' : '');
         wrap.dataset.pageNum = i;
+
+        const checkmark = document.createElement('div');
+        checkmark.className = 'page-checkmark';
+        checkmark.textContent = '✓';
+        wrap.appendChild(checkmark);
 
         const canvas = document.createElement('canvas');
         wrap.appendChild(canvas);
@@ -413,11 +522,16 @@
         label.className = 'page-label';
         label.textContent = `Page ${i}`;
 
-        card.appendChild(wrap);
-        card.appendChild(label);
-        pageGrid.appendChild(card);
-        cards.push({ wrap, canvas, pageNum: i, rendered: false });
+        cardEl.appendChild(wrap);
+        cardEl.appendChild(label);
+        pageGrid.appendChild(cardEl);
+
+        const card = { wrap, canvas, pageNum: i, rendered: false, selected: false };
+        wrap.addEventListener('click', () => toggleSelection(card));
+        cards.push(card);
       }
+
+      updateSelectionCount();
 
       if (useLazy) {
         // Lazy render with IntersectionObserver
